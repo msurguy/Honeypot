@@ -19,9 +19,22 @@ class HoneypotServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->package('msurguy/honeypot');
+
         $this->createMacroForm();
-		$this->app['validator']->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validate', $this->app['translator']->get('honeypot::validation.honeypot'));
-		$this->app['validator']->extend('honeytime', 'Msurguy\Honeypot\HoneytimeValidator@validate', $this->app['translator']->get('honeypot::validation.honeytime'));
+
+        // Extend Laravel's validator (rule, function, messages)
+		$this->app['validator']->extend(
+            'honeypot', 
+            'Msurguy\Honeypot\HoneypotValidator@validate', 
+            $this->app['translator']->get('honeypot::validation.honeypot'
+        ));
+
+        // Extend Laravel's validator (rule, function, messages)
+		$this->app['validator']->extend(
+            'honeytime', 
+            'Msurguy\Honeypot\HoneytimeValidator@validate', 
+            $this->app['translator']->get('honeypot::validation.honeytime')
+        );
     }
 
     /**
@@ -31,7 +44,6 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
-        //
         $this->app['honeypot'] = $this->app->share(function($app)
         {
             return new Honeypot;
@@ -54,9 +66,11 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function createMacroForm()
     {
+        // Add a custom honeypot macro to Laravel's forms
         app('form')->macro('honeypot', function($honey_name, $honey_time)
         {
             $o = new Honeypot();
+            
             return $o->getFormHTML($honey_name, $honey_time);
         });
     }

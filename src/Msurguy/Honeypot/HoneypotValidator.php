@@ -1,13 +1,13 @@
 <?php namespace Msurguy\Honeypot;
 
-//use Illuminate\Validation\Validator;
-//use Illuminate\Encryption\Encrypter;
-
 class HoneypotValidator {
 
-  public function validate($attribute, $value, $parameters, $validator)
-  {
-    return $value == '';
-  }
+    /**
+     * Extending Laravel Validator (http://laravel.com/docs/validation#custom-validation-rules)
+     */
+    public function validate($attribute, $value, $parameters, $validator)
+    {
+        return $value == '';
+    }
 
 }
