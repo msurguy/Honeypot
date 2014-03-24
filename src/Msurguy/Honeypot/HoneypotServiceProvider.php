@@ -23,14 +23,14 @@ class HoneypotServiceProvider extends ServiceProvider {
         $this->createMacroForm();
 
         // Extend Laravel's validator (rule, function, messages)
-		$this->app['validator']->extend(
+        $this->app['validator']->extend(
             'honeypot', 
             'Msurguy\Honeypot\HoneypotValidator@validate', 
             $this->app['translator']->get('honeypot::validation.honeypot'
         ));
 
         // Extend Laravel's validator (rule, function, messages)
-		$this->app['validator']->extend(
+        $this->app['validator']->extend(
             'honeytime', 
             'Msurguy\Honeypot\HoneytimeValidator@validate', 
             $this->app['translator']->get('honeypot::validation.honeytime')
