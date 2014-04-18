@@ -28,7 +28,7 @@ class HoneytimeValidatorTest extends \PHPUnit_Framework_TestCase {
 
     private function getFacadeApplication()
     {
-        return [ 'encrypter' => $this->crypt ];
+        return array( 'encrypter' => $this->crypt );
     }
 
     private function runValidate()
