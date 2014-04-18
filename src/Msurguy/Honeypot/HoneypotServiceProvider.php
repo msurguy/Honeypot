@@ -57,7 +57,7 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function provides()
     {
-        return ['honeypot'];
+        return array('honeypot');
     }
 
     /**
