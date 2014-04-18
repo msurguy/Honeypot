@@ -30,10 +30,10 @@ class HoneypotTest extends \PHPUnit_Framework_TestCase {
 
     private function getFacadeApplication()
     {
-        return [
+        return array(
             'encrypter' => $this->crypt,
             'view' => $this->view
-        ];
+        );
     }
 
     /** @test */
@@ -43,11 +43,11 @@ class HoneypotTest extends \PHPUnit_Framework_TestCase {
                     ->with(1000)->once()
                     ->andReturn('encrypted');
 
-        $viewVariables = [
+        $viewVariables = array(
             'honey_name' => 'honey_name',
             'honey_time' => 'honey_time',
             'honey_time_encrypted' => 'encrypted'
-        ];
+        );
 
         $this->view->shouldReceive('make')
                    ->with('honeypot::fields', $viewVariables)->once()
