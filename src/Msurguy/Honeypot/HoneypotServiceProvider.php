@@ -19,6 +19,9 @@ class HoneypotServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->createMacroForm();
+        
+        $this->loadViewsFrom(__DIR__ . '/../../views', 'honeypot');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
 
         $this->app->booted(function($app) {
             // Extend Laravel's validator (rule, function, messages)
@@ -44,8 +47,6 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
-        $this->app['view']->addNamespace('honeypot', __DIR__ . '/../../views');
-
         $this->app['honeypot'] = $this->app->share(function($app)
         {
             return new Honeypot;
