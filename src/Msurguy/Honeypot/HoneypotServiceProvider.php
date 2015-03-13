@@ -57,19 +57,9 @@ class HoneypotServiceProvider extends ServiceProvider {
         $validator = $this->app['validator'];
         $translator = $this->app['translator'];
 
-        // Extend Laravel's validator (rule, function, messages)
-        $validator->extend(
-            'honeypot',
-            'Msurguy\Honeypot\HoneypotValidator@validate',
-            $translator->get('honeypot::validation.honeypot')
-        );
-
-        // Extend Laravel's validator (rule, function, messages)
-        $validator->extend(
-            'honeytime',
-            'Msurguy\Honeypot\HoneytimeValidator@validate',
-            $translator->get('honeypot::validation.honeytime')
-        );
+        // Add honeypot and honeytime custom validation rules
+        $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
+        $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
     }
 
     /**
