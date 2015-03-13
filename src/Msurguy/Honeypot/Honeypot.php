@@ -1,9 +1,9 @@
 <?php namespace Msurguy\Honeypot;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Crypt;
+use View;
+use Crypt;
 
-class Honeypot{
+class Honeypot {
 
     /**
      * Function to render the HTML of the hidden honeypot form
@@ -13,7 +13,11 @@ class Honeypot{
         // Encrypt the current time
         $honey_time_encrypted = Crypt::encrypt(time());
 
-        return View::make("honeypot::fields", array_merge(get_defined_vars(), array('honey_time_encrypted' => $honey_time_encrypted)));
+        return View::make("honeypot::fields", array(
+            'honey_name'           => $honey_name,
+            'honey_time'           => $honey_time,
+            'honey_time_encrypted' => $honey_time_encrypted
+        ));
     }
 
 }
