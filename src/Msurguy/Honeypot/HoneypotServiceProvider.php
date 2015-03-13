@@ -49,7 +49,6 @@ class HoneypotServiceProvider extends ServiceProvider {
         }
         elseif ($this->isLaravelVersion(5))
         {
-            $this->loadViewsFrom(__DIR__ . '/../../views/', 'honeypot');
             $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
         }
 
