@@ -1,5 +1,6 @@
 <?php namespace Msurguy\Honeypot;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class HoneypotServiceProvider extends ServiceProvider {
@@ -12,33 +13,11 @@ class HoneypotServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
-    * Bootstrap the application events.
-    *
-    * @return void
-    */
-    public function boot()
-    {
-        $this->createMacroForm();
-        
-        $this->loadViewsFrom(__DIR__ . '/../../views', 'honeypot');
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
-
-        $this->app->booted(function($app) {
-            // Extend Laravel's validator (rule, function, messages)
-            $app['validator']->extend(
-                'honeypot',
-                'Msurguy\Honeypot\HoneypotValidator@validate',
-                $app['translator']->get('honeypot::validation.honeypot')
-            );
-
-            // Extend Laravel's validator (rule, function, messages)
-            $app['validator']->extend(
-                'honeytime',
-                'Msurguy\Honeypot\HoneytimeValidator@validate',
-                $app['translator']->get('honeypot::validation.honeytime')
-            );
-        });
-    }
+     * Laravel major version number
+     *
+     * @var integer
+     */
+    protected $laravelVersion;
 
     /**
     * Register the service provider.
@@ -47,10 +26,44 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
+        if ($this->isLaravelVersion(5))
+        {
+            $this->app['view']->addNamespace('honeypot', __DIR__ . '/../../views');
+        }
+
         $this->app['honeypot'] = $this->app->share(function($app)
         {
             return new Honeypot;
         });
+
+        $this->app->resolving('form', function($form) {
+            $this->createMacroForm($form);
+        });
+    }
+
+    /**
+    * Bootstrap the application events.
+    *
+    * @return void
+    */
+    public function boot()
+    {
+        if ($this->isLaravelVersion(4))
+        {
+            $this->package('msurguy/honeypot');
+        }
+        elseif ($this->isLaravelVersion(5))
+        {
+            $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
+        }
+
+        // Get validator and translator
+        $validator = $this->app['validator'];
+        $translator = $this->app['translator'];
+
+        // Add honeypot and honeytime custom validation rules
+        $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
+        $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
     }
 
     /**
@@ -65,16 +78,34 @@ class HoneypotServiceProvider extends ServiceProvider {
 
     /**
     * Creates a custom Form macro
+    *
+    * @param  Illuminate\Html\FormBuilder
     * @return void
     */
-    public function createMacroForm()
+    public function createMacroForm($form)
     {
         // Add a custom honeypot macro to Laravel's forms
-        app('form')->macro('honeypot', function($honey_name, $honey_time)
-        {
+        $form->macro('honeypot', function($honey_name, $honey_time) {
             $o = new Honeypot();
 
             return $o->getFormHTML($honey_name, $honey_time);
         });
+    }
+
+    /**
+     * Determine if laravel is the given major version number
+     *
+     * @param  integer  $major
+     * @return boolean
+     */
+    protected function isLaravelVersion($major)
+    {
+        // Cache version number
+        if (is_null($this->laravelVersion) && preg_match('#^(\d+)\.#', Application::VERSION, $majorVersion))
+        {
+            $this->laravelVersion = $majorVersion[1];
+        }
+
+        return $this->laravelVersion == $major;
     }
 }

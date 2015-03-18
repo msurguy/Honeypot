@@ -1,65 +1,32 @@
 <?php namespace Msurguy\Tests;
 
 use Mockery;
-use Msurguy\Honeypot\Honeypot;
-use Illuminate\Support\Facades\Facade;
 
 class HoneypotTest extends \PHPUnit_Framework_TestCase {
 
     private $honeypot;
-    private $crypt;
-    private $view;
 
     public function setUp()
     {
-        $this->honeypot = new Honeypot;
-        $this->crypt = Mockery::mock();
-        $this->view  = Mockery::mock();
-
-        $app = $this->getFacadeApplication();
-
-        Facade::setFacadeApplication($app);
+        $this->honeypot = Mockery::mock('Msurguy\Honeypot\Honeypot[getEncryptedTime]');
+        $this->honeypot->shouldReceive('getEncryptedTime')->once()->andReturn('ENCRYPTED_TIME');
     }
 
     public function tearDown()
     {
         Mockery::close();
-        Facade::setFacadeApplication(null);
-        Facade::clearResolvedInstances();
     }
 
-    private function getFacadeApplication()
+    public function test_get_honeypot_form_html()
     {
-        return array(
-            'encrypter' => $this->crypt,
-            'view' => $this->view
-        );
-    }
+        $actualHtml = $this->honeypot->getFormHTML('honey_name', 'honey_time');
+        $expectedHtml = '' .
+            '<div id="honey_name_wrap" style="display:none;">\r\n' .
+                '<input name="honey_name" type="text" value="" id="honey_name"/>\r\n' .
+                '<input name="honey_time" type="text" value="ENCRYPTED_TIME"/>\r\n' .
+            '</div>';
 
-    /** @test */
-    public function it_assigns_the_values_to_the_view()
-    {
-        $this->crypt->shouldReceive('encrypt')
-                    ->with(1000)->once()
-                    ->andReturn('encrypted');
-
-        $viewVariables = array(
-            'honey_name' => 'honey_name',
-            'honey_time' => 'honey_time',
-            'honey_time_encrypted' => 'encrypted'
-        );
-
-        $this->view->shouldReceive('make')
-                   ->with('honeypot::fields', $viewVariables)->once()
-                   ->andReturn('view');
-
-        $result = $this->honeypot->getFormHtml('honey_name', 'honey_time');
-
-        $this->assertEquals(
-            'view',
-            $result,
-            'The values should be assigned to the view.'
-        );
+        $this->assertEquals($actualHtml, $expectedHtml);
     }
 
 }
