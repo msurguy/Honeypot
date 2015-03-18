@@ -26,11 +26,6 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
-        if ($this->isLaravelVersion(5))
-        {
-            $this->app['view']->addNamespace('honeypot', __DIR__ . '/../../views');
-        }
-
         $this->app['honeypot'] = $this->app->share(function($app)
         {
             return new Honeypot;
