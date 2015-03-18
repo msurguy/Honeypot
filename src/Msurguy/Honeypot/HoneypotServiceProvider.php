@@ -14,7 +14,7 @@ class HoneypotServiceProvider extends ServiceProvider {
 
     /**
      * Laravel major version number
-     * 
+     *
      * @var integer
      */
     protected $laravelVersion;
@@ -33,7 +33,7 @@ class HoneypotServiceProvider extends ServiceProvider {
 
         $this->app->resolving('form', function($form) {
             $this->createMacroForm($form);
-        });        
+        });
     }
 
     /**
@@ -73,7 +73,7 @@ class HoneypotServiceProvider extends ServiceProvider {
 
     /**
     * Creates a custom Form macro
-    * 
+    *
     * @param  Illuminate\Html\FormBuilder
     * @return void
     */
@@ -82,14 +82,14 @@ class HoneypotServiceProvider extends ServiceProvider {
         // Add a custom honeypot macro to Laravel's forms
         $form->macro('honeypot', function($honey_name, $honey_time) {
             $o = new Honeypot();
-        
+
             return $o->getFormHTML($honey_name, $honey_time);
         });
     }
 
     /**
      * Determine if laravel is the given major version number
-     * 
+     *
      * @param  integer  $major
      * @return boolean
      */
