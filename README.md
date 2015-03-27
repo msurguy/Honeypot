@@ -36,9 +36,9 @@ Add the hidden DIV containing honeypot fields to your form by inserting `Form::h
 When the page containing `Form::honeypot` macro is rendered, the following HTML markup will be present (my_time field will contain an encrypted timestamp):
     
     <div id="my_name_wrap" style="display:none;">
-        <input id="my_name" name="my_name" type="text" value="">  
-        <input name="my_time" type="hidden" value="eyJpdiI6IkxoeWhKc3prN2puZllEajRwZ3lrc0I5bU42bUFWbzF1NEVVOEhxbG9WcFE9IiwidmFsdWUiOiJxNEtBT0NpYW5lUjJvWXp6VE45a1U0V3dNbk9Jd2RUNW42NFpiQWtTRllRPSIsIm1hYyI6IjAyMWQ0NWI1NTVkYTBjZTAxMTdhZmJmNTY0ZDI4Nzg4NzU3ODU4MjM1Y2MxNTVkYjAwNmFhNzBmNTdlNmJmMjkifQ==">
-    </div>   
+        <input name="my_name" type="text" value="" id="my_name">
+        <input name="my_time" type="text" value="eyJpdiI6IkxoeWhKc3prN2puZllEajRwZ3lrc0I5bU42bUFWbzF1NEVVOEhxbG9WcFE9IiwidmFsdWUiOiJxNEtBT0NpYW5lUjJvWXp6VE45a1U0V3dNbk9Jd2RUNW42NFpiQWtTRllRPSIsIm1hYyI6IjAyMWQ0NWI1NTVkYTBjZTAxMTdhZmJmNTY0ZDI4Nzg4NzU3ODU4MjM1Y2MxNTVkYjAwNmFhNzBmNTdlNmJmMjkifQ==">
+    </div>
 
 After adding the honeypot fields in the markup with the specified macro add the validation for the honeypot and honeytime fields of the form: 
 
