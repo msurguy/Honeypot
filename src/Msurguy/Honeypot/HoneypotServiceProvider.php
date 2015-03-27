@@ -1,5 +1,6 @@
 <?php namespace Msurguy\Honeypot;
 
+use Illuminate\Html\FormBuilder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,10 +31,6 @@ class HoneypotServiceProvider extends ServiceProvider {
         {
             return new Honeypot;
         });
-
-        $this->app->resolving('form', function($form) {
-            $this->createMacroForm($form);
-        });        
     }
 
     /**
@@ -59,6 +56,9 @@ class HoneypotServiceProvider extends ServiceProvider {
         // Add honeypot and honeytime custom validation rules
         $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
         $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
+
+        // Register the honeypot form macros
+        $this->registerFormMacro();
     }
 
     /**
@@ -72,15 +72,14 @@ class HoneypotServiceProvider extends ServiceProvider {
     }
 
     /**
-    * Creates a custom Form macro
+    * Register the honeypot form macro
     * 
-    * @param  Illuminate\Html\FormBuilder
     * @return void
     */
-    public function createMacroForm($form)
+    public function registerFormMacro()
     {
         // Add a custom honeypot macro to Laravel's forms
-        $form->macro('honeypot', function($honey_name, $honey_time) {
+        FormBuilder::macro('honeypot', function($honey_name, $honey_time) {
             $o = new Honeypot();
         
             return $o->getFormHTML($honey_name, $honey_time);
