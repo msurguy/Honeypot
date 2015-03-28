@@ -14,13 +14,6 @@ class HoneypotServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
-     * Laravel major version number
-     * 
-     * @var integer
-     */
-    protected $laravelVersion;
-
-    /**
     * Register the service provider.
     *
     * @return void
@@ -40,25 +33,28 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function boot()
     {
-        if ($this->isLaravelVersion(4))
+        if ($this->isLaravelVersion('4'))
         {
             $this->package('msurguy/honeypot');
         }
-        elseif ($this->isLaravelVersion(5))
+        elseif ($this->isLaravelVersion('5'))
         {
             $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
         }
 
-        // Get validator and translator
-        $validator = $this->app['validator'];
-        $translator = $this->app['translator'];
+        $this->app->booted(function($app) {
 
-        // Add honeypot and honeytime custom validation rules
-        $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
-        $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
+            // Get validator and translator
+            $validator = $app['validator'];
+            $translator = $app['translator'];
 
-        // Register the honeypot form macros
-        $this->registerFormMacro();
+            // Add honeypot and honeytime custom validation rules
+            $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
+            $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
+
+            // Register the honeypot form macros
+            $this->registerFormMacro($this->isLaravelVersion(['4.0', '4.1']) ? $app['form'] : null);
+        });
     }
 
     /**
@@ -73,33 +69,36 @@ class HoneypotServiceProvider extends ServiceProvider {
 
     /**
     * Register the honeypot form macro
-    * 
+    *
+    * @param  Illuminate\Html\FormBuilder|null $form
     * @return void
     */
-    public function registerFormMacro()
+    public function registerFormMacro(FormBuilder $form = null)
     {
-        // Add a custom honeypot macro to Laravel's forms
-        FormBuilder::macro('honeypot', function($honey_name, $honey_time) {
-            $o = new Honeypot();
-        
-            return $o->getFormHTML($honey_name, $honey_time);
-        });
+        $honeypotMacro = function($honey_name, $honey_time) {
+            $honeypot = new Honeypot();
+            return $honeypot->getFormHTML($honey_name, $honey_time);
+        };
+
+        // Add a custom honeypot macro to Laravel's form
+        if ($form)
+        {
+            $form->macro('honeypot', $honeypotMacro);
+        }
+        else
+        {
+            FormBuilder::macro('honeypot', $honeypotMacro);
+        }
     }
 
     /**
-     * Determine if laravel is the given major version number
+     * Determine if laravel starts with any of the given version strings
      * 
-     * @param  integer  $major
+     * @param  string|array  $startsWith
      * @return boolean
      */
-    protected function isLaravelVersion($major)
+    protected function isLaravelVersion($startsWith)
     {
-        // Cache version number
-        if (is_null($this->laravelVersion) && preg_match('#^(\d+)\.#', Application::VERSION, $majorVersion))
-        {
-            $this->laravelVersion = $majorVersion[1];
-        }
-
-        return $this->laravelVersion == $major;
+        return \Str::startsWith(Application::VERSION, $startsWith);
     }
 }
