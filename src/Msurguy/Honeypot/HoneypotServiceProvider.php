@@ -3,6 +3,7 @@
 use Illuminate\Html\FormBuilder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class HoneypotServiceProvider extends ServiceProvider {
 
@@ -99,6 +100,6 @@ class HoneypotServiceProvider extends ServiceProvider {
      */
     protected function isLaravelVersion($startsWith)
     {
-        return \Str::startsWith(Application::VERSION, $startsWith);
+        return Str::startsWith(Application::VERSION, $startsWith);
     }
 }
