@@ -21,19 +21,23 @@ Next, add this line to 'providers' section of the app config file in `app/config
 
     'Msurguy\Honeypot\HoneypotServiceProvider',
 
+Add the honeypot facade:
+
+    'Honeypot' => 'Msurguy\Honeypot\HoneypotFacade'
+
 At this point the package is installed and you can use it as follows.
 
 ## Usage :
 
-Add the hidden DIV containing honeypot fields to your form by inserting `Form::honeypot` macro like this: 
+Add the honeypot catcher to your form by inserting `Honeypot::generate(..)` like this: 
 
     {{ Form::open('contact') }}
         ...
-        {{ Form::honeypot('my_name', 'my_time') }}
+        {{ Honeypot::generate('my_name', 'my_time') }}
         ...
     {{ Form::close() }}
 
-When the page containing `Form::honeypot` macro is rendered, the following HTML markup will be present (my_time field will contain an encrypted timestamp):
+The `generate` method will output the following HTML markup (`my_time` field will contain an encrypted timestamp):
     
     <div id="my_name_wrap" style="display:none;">
         <input name="my_name" type="text" value="" id="my_name">
