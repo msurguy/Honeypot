@@ -5,12 +5,12 @@ use Crypt;
 class Honeypot {
 
     /**
-     * Get the honey pot form HTML
+     * Generate a new honeypot and return the form HTML
      * @param  string $honey_name
      * @param  string $honey_time
      * @return string
      */
-    public function getFormHTML($honey_name, $honey_time)
+    public function generate($honey_name, $honey_time)
     {
         // Encrypt the current time
         $honey_time_encrypted = $this->getEncryptedTime();
