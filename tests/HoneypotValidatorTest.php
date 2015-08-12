@@ -2,8 +2,12 @@
 
 use Mockery;
 
-class HoneypotValidatorTest extends \PHPUnit_Framework_TestCase {
+class HoneypotValidatorTest extends \PHPUnit_Framework_TestCase
+{
 
+    /**
+     * @var \Mockery\MockInterface
+     */
     private $validator;
 
     public function setUp()
@@ -63,7 +67,7 @@ class HoneypotValidatorTest extends \PHPUnit_Framework_TestCase {
             ->with('foo')->once()
             ->andReturn($time);
 
-        return $this->validator->validateHoneytime(null, 'foo', [ 100 ], null);
+        return $this->validator->validateHoneytime(null, 'foo', [100], null);
     }
 
 }
