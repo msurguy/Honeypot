@@ -2,7 +2,8 @@
 
 use Crypt;
 
-class Honeypot {
+class Honeypot
+{
 
     /**
      * Generate a new honeypot and return the form HTML
@@ -15,9 +16,9 @@ class Honeypot {
         // Encrypt the current time
         $honey_time_encrypted = $this->getEncryptedTime();
 
-        $html = '<div id="' . $honey_name . '_wrap" style="display:none;">' . "\r\n" .
-                    '<input name="' . $honey_name . '" type="text" value="" id="' . $honey_name . '"/>' . "\r\n" .
-                    '<input name="' . $honey_time . '" type="text" value="' . $honey_time_encrypted . '"/>' . "\r\n" .
+        $html = '<div id="' . $honey_name . '_wrap" style="display:none;">' .
+                    '<input name="' . $honey_name . '" type="text" value="" id="' . $honey_name . '"/>' .
+                    '<input name="' . $honey_time . '" type="text" value="' . $honey_time_encrypted . '"/>' .
                 '</div>';
 
         return $html;
