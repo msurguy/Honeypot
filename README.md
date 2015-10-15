@@ -31,6 +31,16 @@ At this point the package is installed and you can use it as follows.
 
 Add the honeypot catcher to your form by inserting `Honeypot::generate(..)` like this: 
 
+Laravel 5 & above:
+
+    {!! Form::open('contact') !!}
+        ...
+        {!! Honeypot::generate('my_name', 'my_time') !!}
+        ...
+    {!! Form::close() !!}
+    
+Other Laravel versions:
+
     {{ Form::open('contact') }}
         ...
         {{ Honeypot::generate('my_name', 'my_time') }}
