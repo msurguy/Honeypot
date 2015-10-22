@@ -8,7 +8,7 @@ class HoneypotValidatorTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
-        $this->validator = Mockery::mock('Msurguy\Honeypot\HoneypotValidator[decryptTime]');
+        $this->validator = Mockery::mock('Msurguy\Honeypot\Honeypot[decryptTime]');
     }
 
     /** @test */
