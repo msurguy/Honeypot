@@ -49,8 +49,9 @@ class HoneypotServiceProvider extends ServiceProvider {
             $translator = $app['translator'];
 
             // Add honeypot and honeytime custom validation rules
-            $validator->extend('honeypot', 'Msurguy\Honeypot\HoneypotValidator@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
-            $validator->extend('honeytime', 'Msurguy\Honeypot\HoneypotValidator@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
+            $validator->extend('honeypot', 'honeypot@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
+            $validator->extend('honeytime', 'honeypot@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
+
         });
     }
 

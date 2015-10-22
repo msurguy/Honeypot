@@ -69,6 +69,19 @@ Please note that "honeytime" takes a parameter specifying number of seconds it s
 
 That's it! Enjoy getting less spam in your inbox. If you need stronger spam protection, consider using [Akismet](https://github.com/kenmoini/akismet) or [reCaptcha](https://github.com/dontspamagain/recaptcha)   
 
+## Testing
+
+If you want to test the submission of a form using this package, you might want to disable Honeypot so that the validation passes. To do so, simply call the `disable()` method in your test:
+
+    Honeypot::disable();
+
+    $this->visit('contact')
+        ->type('User', 'name')
+        ->type('user@email.com', 'email')
+        ->type('Hello World', 'message')
+        ->press('submit')
+        ->see('Your message has been sent!');
+
 ## Credits
 
 Based on work originally created by Ian Landsman: <https://github.com/ianlandsman/Honeypot>
