@@ -101,7 +101,7 @@ class Honeypot {
     	try {
             return Crypt::decrypt($time);
     	}
-    	catch (\Illuminate\Encryption\DecryptException $exception)
+    	catch (\Exception $exception)
         {
             return null;
         }
