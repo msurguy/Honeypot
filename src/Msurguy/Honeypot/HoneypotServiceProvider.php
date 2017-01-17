@@ -20,7 +20,7 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
-        $this->app['honeypot'] = $this->app->share(function($app)
+        $this->app->singleton('honeypot', function($app)
         {
             return new Honeypot;
         });
@@ -67,7 +67,7 @@ class HoneypotServiceProvider extends ServiceProvider {
 
     /**
      * Determine if laravel starts with any of the given version strings
-     * 
+     *
      * @param  string|array  $startsWith
      * @return boolean
      */
