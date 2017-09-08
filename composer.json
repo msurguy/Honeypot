@@ -33,7 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Backup\\BackupServiceProvider"
+                "Msurguy\\Honeypot\\HoneypotServiceProvider"
             ]
         }
     }
