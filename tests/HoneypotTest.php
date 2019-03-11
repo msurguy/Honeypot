@@ -19,12 +19,9 @@ class HoneypotTest extends \PHPUnit_Framework_TestCase {
 
     public function test_get_honeypot_form_html()
     {
-        $actualHtml = $this->honeypot->getFormHTML('honey_name', 'honey_time');
+        $actualHtml = $this->honeypot->generate('honey_name', 'honey_time');
         $expectedHtml = '' .
-            '<div id="honey_name_wrap" style="display:none;">' . "\r\n" .
-                '<input name="honey_name" type="text" value="" id="honey_name"/>' . "\r\n" .
-                '<input name="honey_time" type="text" value="ENCRYPTED_TIME"/>' . "\r\n" .
-            '</div>';
+            '<div id="honey_name_wrap" style="display:none;"><input name="honey_name" type="text" value="" id="honey_name"/><input name="honey_time" type="text" value="ENCRYPTED_TIME"/></div>';
 
         $this->assertEquals($actualHtml, $expectedHtml);
     }
