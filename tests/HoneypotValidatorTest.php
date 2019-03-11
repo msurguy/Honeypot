@@ -63,7 +63,7 @@ class HoneypotValidatorTest extends \PHPUnit_Framework_TestCase {
             ->with('foo')->once()
             ->andReturn($time);
 
-        return $this->validator->validateHoneytime(null, 'foo', [ 100 ], null);
+        return $this->validator->validateHoneytime(null, 'foo', array(100), null);
     }
 
 }

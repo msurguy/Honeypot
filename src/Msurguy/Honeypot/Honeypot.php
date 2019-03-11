@@ -33,7 +33,7 @@ class Honeypot {
         // Encrypt the current time
         $honey_time_encrypted = $this->getEncryptedTime();
 
-        $html = '<div id="' . $honey_name . '_wrap" style="display:none;"><input name="' . $honey_name . '" type="text" value="" id="' . $honey_name . '"/><input name="' . $honey_time . '" type="text" value="' . $honey_time_encrypted . '"/></div>';
+        $html = '<div class="' . $honey_name . '_wrap" style="display:none;"><input name="' . $honey_name . '" type="text" value="" id="' . $honey_name . '"/><input name="' . $honey_time . '" type="text" value="' . $honey_time_encrypted . '"/></div>';
 
         return $html;
     }

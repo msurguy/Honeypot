@@ -21,7 +21,7 @@ class HoneypotTest extends \PHPUnit_Framework_TestCase {
     {
         $actualHtml = $this->honeypot->generate('honey_name', 'honey_time');
         $expectedHtml = '' .
-            '<div id="honey_name_wrap" style="display:none;"><input name="honey_name" type="text" value="" id="honey_name"/><input name="honey_time" type="text" value="ENCRYPTED_TIME"/></div>';
+            '<div class="honey_name_wrap" style="display:none;"><input name="honey_name" type="text" value="" id="honey_name"/><input name="honey_time" type="text" value="ENCRYPTED_TIME"/></div>';
 
         $this->assertEquals($actualHtml, $expectedHtml);
     }
