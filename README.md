@@ -9,11 +9,11 @@ This package creates a hidden DIV with two fields in it, honeypot field (like "m
 
 ## Installation:
 
-In your terminal type : `composer require msurguy/honeypot` and provide "dev-master" as the version of the package. Or open up composer.json and add the following line under "require":
+In your terminal type : `composer require msurguy/honeypot`. Or open up composer.json and add the following line under "require":
 
     {
         "require": {
-            "msurguy/honeypot": "dev-master"
+            "msurguy/honeypot": "^1.0"
         }
     }
 
