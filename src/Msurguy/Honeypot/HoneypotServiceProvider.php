@@ -4,7 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
-class HoneypotServiceProvider extends ServiceProvider {
+class HoneypotServiceProvider extends ServiceProvider
+{
 
     /**
     * Indicates if loading of the provider is deferred.
@@ -20,8 +21,7 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function register()
     {
-        $this->app->singleton('honeypot', function($app)
-        {
+        $this->app->singleton('honeypot', function ($app) {
             return new Honeypot;
         });
     }
@@ -33,16 +33,13 @@ class HoneypotServiceProvider extends ServiceProvider {
     */
     public function boot()
     {
-        if ($this->isLaravelVersion('4'))
-        {
+        if ($this->isLaravelVersion('4')) {
             $this->package('msurguy/honeypot');
-        }
-        elseif ($this->isLaravelVersion('5'))
-        {
+        } elseif ($this->isLaravelVersion('5') || $this->isLaravelVersion('6')) {
             $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
         }
 
-        $this->app->booted(function($app) {
+        $this->app->booted(function ($app) {
 
             // Get validator and translator
             $validator = $app['validator'];
@@ -51,7 +48,6 @@ class HoneypotServiceProvider extends ServiceProvider {
             // Add honeypot and honeytime custom validation rules
             $validator->extend('honeypot', 'honeypot@validateHoneypot', $translator->get('honeypot::validation.honeypot'));
             $validator->extend('honeytime', 'honeypot@validateHoneytime', $translator->get('honeypot::validation.honeytime'));
-
         });
     }
 
