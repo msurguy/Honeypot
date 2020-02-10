@@ -34,7 +34,10 @@
         "laravel": {
             "providers": [
                 "Msurguy\\Honeypot\\HoneypotServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Honeypot": "Msurguy\\Honeypot\\HoneypotFacade"
+            }
         }
     }
 }
