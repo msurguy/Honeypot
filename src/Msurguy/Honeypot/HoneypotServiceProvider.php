@@ -33,10 +33,10 @@ class HoneypotServiceProvider extends ServiceProvider
     */
     public function boot()
     {
-        if ($this->isLaravelVersion('4')) {
-            $this->package('msurguy/honeypot');
-        } elseif ($this->isLaravelVersion('5') || $this->isLaravelVersion('6')) {
+        if ($this->isLaravelMinimumVersion(5)) {
             $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'honeypot');
+        } else {
+            $this->package('msurguy/honeypot');
         }
 
         $this->app->booted(function ($app) {
@@ -62,13 +62,13 @@ class HoneypotServiceProvider extends ServiceProvider
     }
 
     /**
-     * Determine if laravel starts with any of the given version strings
+     * Determine if Laravel version is at least the given version.
      *
-     * @param  string|array  $startsWith
+     * @param  string|array  $minimumVersion
      * @return boolean
      */
-    protected function isLaravelVersion($startsWith)
+    protected function isLaravelMinimumVersion($minimumVersion)
     {
-        return Str::startsWith(Application::VERSION, $startsWith);
+        return (float)Application::VERSION >= $minimumVersion;
     }
 }
