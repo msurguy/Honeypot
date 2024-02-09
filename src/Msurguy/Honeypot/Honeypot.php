@@ -1,6 +1,6 @@
 <?php namespace Msurguy\Honeypot;
 
-use Crypt;
+use Illuminate\Support\Facades\Crypt;
 
 class Honeypot {
 
